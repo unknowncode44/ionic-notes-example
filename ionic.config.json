@@ -1,0 +1,7 @@
+{
+  "name": "ws-client2-example",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
