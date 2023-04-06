@@ -1,20 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+<!-- crearemos un template para nuestro hoome usando solo componentes ionic -->
+
+<!-- ion header es para poner un titulo y un appbar si quisieramos, seria el header de nuestra pagina -->
+<ion-header>
+    <!-- iontoolbar es el  appbar, en el que colocaremos el titulo y un boton-->
+    <ion-toolbar color="secondary">
+        <!-- ion-title es el titulo -->
+        <ion-title>Notas</ion-title>
+        <!-- crearemos un slot para botones, que podremos posicionar, en este caso en el final del appbar -->
+        <ion-buttons slot="end">
+
+            <ion-button (click)="showSearch()">
+                <ion-icon name="search-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+
+
+            <!-- ion-button se usa para la creacion de botones -->
+            <ion-button (click)="addNote()">
+                <!-- 
+                    ion-icon para usar los iconos que nos ofrece ionic, en este caso clipboard, 
+                    y en el boton solo mostraremos el icono. Usaremos un alert de ionic para llamar a un modal
+                    y asi completar los datos de la nota
+                -->
+                <ion-icon name="add" slot="icon-only"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="searchBar" color="secondary">
+        <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<!-- ion-content es para definir el contenido de nuestra pagina, en este caso es el body -->
+<ion-content>
+    <!-- el ion-list se usa para crear listas -->
+    <ion-list>
+        <!-- y el ion-item es para los items de la lista -->
+        <!-- 
+            Aca hacemos uso del NGFOR para recorrer el array de notas, routerLink y routerDirection 
+            para ir a la pagina detalles de la nota deseada, usando el note.id como parametro para mostrar la nota, 
+         -->
+        <ion-item button detail *ngFor="let note of (notesService.notes | async)" [routerLink]="'/waiting/' + note.id" routerDirection="forward">
+            <!-- <ion-item button detail *ngFor="let note of notesService.notes" [routerLink]="'/notes/' + note.id" routerDirection="forward"> -->
+            <!-- ion-label es para la etiqueta del item, en este caso el titulo de la nota -->
+            <ion-label>{{ note.title }}</ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>
